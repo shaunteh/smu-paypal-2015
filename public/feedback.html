@@ -22,7 +22,7 @@ Click <a href='index.html'>here</a> to upgrade your account.
 
 <!-- Show this div when the users is logged in -->
 <div ng-show="currentUser">
-  You are logged in as: {{currentUser.github.displayName}} <br><br>
+  You are logged in as: {{currentUser.google.displayName}} <br><br>
   <button class="btn btn-success" ng-click="editFeedback('new')">
     <span class="glyphicon"></span>Click here to leave feedback.
   </button>
@@ -33,7 +33,7 @@ Click <a href='index.html'>here</a> to upgrade your account.
 
 <!-- Show this div when the user is not logged in -->
 <div ng-hide="currentUser">
-  <button class="btn btn-success" ng-click="login('github')">
+  <button class="btn btn-success" ng-click="login('google')">
     <span class="glyphicon glyphicon-user"></span>Login to leave feedback.
   </button>
 </div>
