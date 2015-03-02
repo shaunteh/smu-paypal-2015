@@ -228,18 +228,27 @@ Please consider reviewing the applications of:
     
     }]);
 
-{
-  "rules": {
-    "users": {
-      "$uid": {
-        // grants write access to the owner of this user account whose uid must exactly match the key ($uid)
+
+ {
+   "rules": {
+   "user":{
+      "$user_id": {
+            // grants write access to the owner of this user account whose uid must exactly match the key ($uid)
         ".write": "auth !== null && auth.uid === $uid",
         // grants read access to any user who is logged in with Google
         ".read": "auth !== null && auth.provider === 'google'"
-      }
-    }
-  }
-}
+          }
+    }, 
+    "feedback":{
+      //Let everyone read all feedback if they are logged in. 
+      ".read": "auth!=null",
+      //Only let people create and edit their own items. 
+      "$feedbackID":{
+        ".write": "(newData.child('uid').val() == auth.uid || data.child('uid').val() == auth.uid) && auth!=null"
+    
+   }
+ }
+
 
 
 </script>
