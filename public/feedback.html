@@ -156,10 +156,11 @@ Please consider reviewing the applications of:
     $scope.newuser = {};
     
     // Here is where you update your Firebase URL. 
-    var theFirebaseURL = "https://shaunteh.firebaseio.com/";
+    var theFirebaseURL = "https://shaunteh.firebaseio.com";
     
     var ref = new Firebase(theFirebaseURL);
     $scope.users = $firebase(ref.child("feedback")).$asArray(); 
+
     $scope.edit = false;
     $scope.error = false;
     $scope.incomplete = false;  
@@ -178,7 +179,7 @@ Please consider reviewing the applications of:
     }
     
     $scope.login = function(loginProvider){
-          ref.authWithOAuthPopup("google", function(error, authData) {
+          ref.authWithOAuthPopup(loginProvider, function(error, authData) {
             if (error) {
               console.log("Login Failed!", error);
             } else {
@@ -228,15 +229,14 @@ Please consider reviewing the applications of:
     
     }]);
 
-
- {
-   "rules": {
-   "user":{
-      "$user_id": {
-            // grants write access to the owner of this user account whose uid must exactly match the key ($uid)
-        ".write": "auth !== null && auth.uid === $uid",
-        // grants read access to any user who is logged in with Google
-        ".read": "auth !== null && auth.provider === 'google'"
+/* Firebase security rules to protect user data and feedback. 
+{
+  "rules": {
+    "user":{
+          "$user_id": {
+            // grants write access to the owner of this user account whose uid must exactly match the key ($user_id)
+            ".write": "$user_id === auth.uid",
+            ".read": true
           }
     }, 
     "feedback":{
@@ -245,13 +245,13 @@ Please consider reviewing the applications of:
       //Only let people create and edit their own items. 
       "$feedbackID":{
         ".write": "(newData.child('uid').val() == auth.uid || data.child('uid').val() == auth.uid) && auth!=null"
+      }
+    }
     
-   }
- }
-
-
-
-</script>
+  }
+}
+*/
+  </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
